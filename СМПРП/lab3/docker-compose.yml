@@ -1,0 +1,24 @@
+version: "3"
+services:
+  redis:
+    image: "redis:6.2.6-alpine"
+    restart: unless-stopped
+
+  web:
+    image: "local/web"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/code
+    ports:
+      - "5000:5000"
+
+networks:
+  default:
+    name: my-compose-network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.80.0.0/24
