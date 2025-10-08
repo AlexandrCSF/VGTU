@@ -1,0 +1,48 @@
+services:
+  rabbitmq:
+    image: "rabbitmq:3.9.15-management-alpine"
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  web0:
+    image: "local/rabbitmq_example_web"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/code
+    environment:
+      WORKER_NUMBER: 0
+    ports:
+      - "5000:5000"
+  web1:
+    image: "local/rabbitmq_example_web"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/code
+    environment:
+      WORKER_NUMBER: 1
+    ports:
+      - "5001:5000"
+  web2:
+    image: "local/rabbitmq_example_web"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/code
+    environment:
+      WORKER_NUMBER: 2
+    ports:
+      - "5002:5000"
+networks:
+  default:
+    name: my-compose-network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.80.0.0/24
