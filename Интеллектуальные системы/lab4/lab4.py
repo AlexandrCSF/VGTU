@@ -22,8 +22,8 @@ dt_acc = accuracy_score(y_test, y_pred_dt)
 dt_f1 = f1_score(y_test, y_pred_dt, average='weighted')
 
 rf = RandomForestClassifier(random_state=42)
-param_grid_rf = {'n_estimators': [50, 100], 'max_depth': [None, 5, 10]}
-gs_rf = GridSearchCV(rf, param_grid_rf, cv=5, scoring='accuracy', n_jobs=-1)
+param_grid_rf = {'n_estimators': [50, 100], 'max_depth': [None, 5]}
+gs_rf = GridSearchCV(rf, param_grid_rf, cv=3, scoring='accuracy', n_jobs=1)
 start = time.time()
 gs_rf.fit(X_train, y_train)
 rf_gs_time = time.time() - start
@@ -36,8 +36,8 @@ rf_acc = accuracy_score(y_test, y_pred_rf)
 rf_f1 = f1_score(y_test, y_pred_rf, average='weighted')
 
 gb = GradientBoostingClassifier(random_state=42)
-param_grid_gb = {'n_estimators': [50, 100], 'learning_rate': [0.05, 0.1], 'max_depth': [3, 5]}
-gs_gb = GridSearchCV(gb, param_grid_gb, cv=5, scoring='accuracy', n_jobs=-1)
+param_grid_gb = {'n_estimators': [50, 100], 'learning_rate': [0.05, 0.1], 'max_depth': [3]}
+gs_gb = GridSearchCV(gb, param_grid_gb, cv=3, scoring='accuracy', n_jobs=1)
 start = time.time()
 gs_gb.fit(X_train, y_train)
 gb_gs_time = time.time() - start
@@ -80,9 +80,9 @@ plt.title('Training time (seconds)')
 plt.ylabel('Time (s)')
 plt.show()
 
-train_sizes = np.linspace(0.1, 1.0, 10)
-_, _, test_scores_rf = learning_curve(best_rf, X, y, cv=5, train_sizes=train_sizes, n_jobs=-1)
-_, _, test_scores_gb = learning_curve(best_gb, X, y, cv=5, train_sizes=train_sizes, n_jobs=-1)
+train_sizes = np.linspace(0.1, 1.0, 5)
+_, _, test_scores_rf = learning_curve(best_rf, X, y, cv=3, train_sizes=train_sizes, n_jobs=1)
+_, _, test_scores_gb = learning_curve(best_gb, X, y, cv=3, train_sizes=train_sizes, n_jobs=1)
 
 plt.figure(figsize=(8,6))
 plt.plot(train_sizes, np.mean(test_scores_rf, axis=1), marker='o', label='Random Forest')
