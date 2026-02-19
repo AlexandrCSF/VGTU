@@ -1,0 +1,4 @@
+flask==2.0.1
+pika==1.2.1
+Werkzeug==2.2.2
+redis==7.0.1
