@@ -1,0 +1,160 @@
+docker compose exec -it mongo bash
+mongosh -u admin -p pass --authenticationDatabase admin
+use db_people
+db.createCollection("People")
+show collections
+
+
+db.People.insertOne({
+    name: "Иван Петров",
+    email: "ivan.petrov@example.com",
+    age: 28,
+    birthday: "1995-05-15",
+    city: "Москва",
+    profession: "программист",
+    gender: "мужской",
+    hobbies: ["программирование", "шахматы", "велоспорт"]
+})
+
+// Пользователь 2 - программист из Москвы
+db.People.insertOne({
+    name: "Елена Смирнова",
+    email: "elena.smirnova@example.com",
+    age: 32,
+    city: "Москва",
+    profession: "программист",
+    gender: "женский",
+    hobbies: ["путешествия", "фотография"]
+})
+
+// Пользователь 3 - рыбак
+db.People.insertOne({
+    name: "Алексей Козлов",
+    email: "alexey.kozlov@example.com",
+    age: 45,
+    birthday: "1978-03-20",
+    city: "Санкт-Петербург",
+    profession: "инженер",
+    gender: "мужской",
+    hobbies: ["рыбалка", "охота", "грибы"]
+})
+
+// Пользователь 4 - путешественник
+db.People.insertOne({
+    name: "Мария Иванова",
+    email: "maria.ivanova@example.com",
+    age: 26,
+    birthday: "1997-07-10",
+    city: "Казань",
+    profession: "дизайнер",
+    gender: "женский",
+    hobbies: ["путешествия", "рисование", "йога"]
+})
+
+// Пользователь 5 - минимальная информация
+db.People.insertOne({
+    name: "Дмитрий_1985",
+    email: "dmitry@example.com"
+})
+
+// Пользователь 6 - программист из Новосибирска
+db.People.insertOne({
+    name: "Сергей Новиков",
+    email: "sergey.novikov@example.com",
+    age: 35,
+    birthday: "1988-11-02",
+    city: "Новосибирск",
+    profession: "программист",
+    gender: "мужской",
+    hobbies: ["музыка", "спорт"]
+})
+
+// Пользователь 7 - житель Москвы
+db.People.insertOne({
+    name: "Ольга Соколова",
+    email: "olga.sokolova@example.com",
+    age: 29,
+    city: "Москва",
+    profession: "маркетолог",
+    gender: "женский",
+    hobbies: ["рыбалка", "кулинария"]
+})
+
+// Пользователь 8 - рыбак из Екатеринбурга
+db.People.insertOne({
+    name: "Владимир Морозов",
+    email: "vladimir.morozov@example.com",
+    age: 52,
+    birthday: "1971-09-18",
+    city: "Екатеринбург",
+    profession: "водитель",
+    gender: "мужской",
+    hobbies: ["рыбалка", "футбол"]
+})
+
+// Пользователь 9 - путешественница
+db.People.insertOne({
+    name: "Анна Белова",
+    email: "anna.belova@example.com",
+    age: 24,
+    city: "Нижний Новгород",
+    profession: "журналист",
+    gender: "женский",
+    hobbies: ["путешествия", "чтение", "танцы"]
+})
+
+// Пользователь 10 - без хобби
+db.People.insertOne({
+    name: "Павел Егоров",
+    email: "pavel.egorov@example.com",
+    age: 38,
+    city: "Самара",
+    profession: "бухгалтер",
+    gender: "мужской"
+})
+
+db.People.find({ profession: "программист" })
+
+db.People.find({ city: "Москва" })
+
+db.People.find({ hobbies: "рыбалка" })
+
+db.People.find({ hobbies: "путешествия" })
+
+db.People.updateOne(
+    { name: "Дмитрий_1985" },
+    { $set: { hobbies: ["плавание", "бег"] } }
+)
+
+db.People.updateOne(
+    { name: "Иван Петров" },
+    { $addToSet: { hobbies: "фотография" } }
+)
+
+db.People.find({ name: "Иван Петров" })
+db.People.find({ name: "Дмитрий_1985" })
+
+db.People.find().pretty()
+
+db.People.find().limit(5)
+
+db.People.find({ _id: ObjectId("some_id_here") })
+
+db.People.countDocuments()
+
+db.People.countDocuments({ profession: "программист" })
+
+db.People.find({
+    profession: "программист",
+    city: "Москва"
+})
+
+db.People.find({
+    city: { $in: ["Москва", "Санкт-Петербург"] }
+})
+
+db.People.find({
+    age: { $gt: 30 }
+})
+
+db.People.drop()
