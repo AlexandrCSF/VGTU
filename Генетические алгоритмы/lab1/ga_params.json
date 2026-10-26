@@ -1,0 +1,7 @@
+{
+  "population_size": 60,
+  "crossover_probability": 0.9,
+  "mutation_probability": 0.3,
+  "max_generations": 200,
+  "no_improve_limit": 40
+}
